@@ -1,20 +1,23 @@
 package com.example.firstapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class Activity_SignUp extends AppCompatActivity {
     EditText txtName, txtEmail, txtPassword;
@@ -73,16 +76,41 @@ public class Activity_SignUp extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // Registro exitoso
+                                actualizarNombreUsuario(nombre);
                                 autenticarUsuario();
                                 Toast.makeText(Activity_SignUp.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
                                 limpiarFormulario();
-                                Intent intent = new Intent(Activity_SignUp.this, Activity_Login.class);
-                                startActivity(intent);
-
 
                             } else {
                                 // Error en el registro
                                 Toast.makeText(Activity_SignUp.this, "Error en el registro: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void actualizarNombreUsuario(String nombre) {
+        FirebaseUser user = mAuth.getCurrentUser(); // Obtén el usuario actual
+
+        if (user != null) {
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(nombre)
+                    .build();
+
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // Perfil actualizado exitosamente
+                                String nuevoNombre = user.getDisplayName();
+                                if (nuevoNombre != null) {
+                                    // Nuevo nombre contiene el nombre actualizado
+                                    Log.d("Registro", "Nombre actualizado exitosamente: " + nuevoNombre);
+
+                                    // Puedes realizar acciones adicionales aquí si es necesario
+                                }
                             }
                         }
                     });

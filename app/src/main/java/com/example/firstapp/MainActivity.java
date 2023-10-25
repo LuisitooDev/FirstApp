@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     TextView holamundo, txtNameUser;
     Button btnExplicito;
     Button btnImplicito, btnLogout;
-
     private FirebaseAuth mAuth;
     FirebaseUser user;
 

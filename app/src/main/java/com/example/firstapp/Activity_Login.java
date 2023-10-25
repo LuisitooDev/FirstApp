@@ -118,7 +118,7 @@ public class Activity_Login extends AppCompatActivity {
     }
 
     private void irMain() {
-        Intent intent = new Intent(Activity_Login.this, MainActivity.class);
+        Intent intent = new Intent(Activity_Login.this, NavigationActivity.class);
         startActivity(intent);
     }
 

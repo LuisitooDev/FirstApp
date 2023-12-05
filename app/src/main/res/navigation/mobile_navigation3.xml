@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.firstapp.ui.crud.CrudFragment"
-        android:label="@string/menu_gallery"
+        android:label="Formulario"
         tools:layout="@layout/fragment_crud" />
 
     <fragment
